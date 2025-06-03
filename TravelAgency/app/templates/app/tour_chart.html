@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Статистика туров | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center text-orange mb-4">Распределение туров по количеству заказов</h2>
+            <div class="orange-divider mb-4"></div>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <img src="data:image/png;base64,{{ chart }}" 
+                         alt="Диаграмма распределения туров" 
+                         class="img-fluid rounded"
+                         style="max-height: 500px;">
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'main' %}" class="btn btn-primary">
+                    <i class="bi bi-house-door"></i> На главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

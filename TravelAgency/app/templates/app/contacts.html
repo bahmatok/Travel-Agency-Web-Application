@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Контакты сотрудников | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center text-orange mb-3">Контакты сотрудников</h2>
+            <div class="orange-divider mb-4"></div>
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'main' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Контакты сотрудников</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        {% for employee in employees %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                {% if employee.photo %}
+                <img src="{{ employee.photo.url }}" class="card-img-top employee-photo" alt="{{ employee.first_name }} {{ employee.last_name }}">
+                {% else %}
+                <div class="card-img-top no-photo d-flex align-items-center justify-content-center">
+                    <i class="bi bi-person-circle text-muted" style="font-size: 3rem;"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h3 class="h5 card-title text-orange">{{ employee.first_name }} {{ employee.last_name }}</h3>
+                    <p class="card-text">
+                        <span class="badge bg-orange-light text-dark mb-2">{{ employee.position }}</span>
+                    </p>
+                    
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-telephone text-orange me-2"></i>
+                            <a href="tel:{{ employee.phone }}" class="text-decoration-none">{{ employee.phone }}</a>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-envelope text-orange me-2"></i>
+                            <a href="mailto:{{ employee.email }}" class="text-decoration-none">{{ employee.email }}</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-balloon text-orange me-2"></i>
+                            {{ employee.birth_date|date:"d.m.Y" }}
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-footer bg-white border-0">
+                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#employeeModal{{ forloop.counter }}">
+                        <i class="bi bi-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'main' %}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> На главную
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Модальные окна для каждого сотрудника -->
+{% for employee in employees %}
+<div class="modal fade" id="employeeModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="employeeModalLabel{{ forloop.counter }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalLabel{{ forloop.counter }}">{{ employee.first_name }} {{ employee.last_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Стаж работы:</strong> {{ employee.experience|default:"10"  }} лет</p>
+                <p><strong>О себе:</strong> {{ employee.bio|default:"Информация отсутствует" }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .employee-photo {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .no-photo {
+        height: 200px;
+        background-color: #f8f9fa;
+    }
+    
+    .bg-orange-light {
+        background-color: rgba(255, 123, 37, 0.1);
+    }
+    
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

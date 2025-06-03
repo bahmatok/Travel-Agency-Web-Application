@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Главная | Турагентство BezБилета{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(255, 123, 37, 0.8), rgba(230, 81, 0, 0.8)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 120px 0;
+        margin-bottom: 40px;
+    }
+    
+    .featured-tour {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 40px;
+        box-shadow: 0 5px 15px rgba(255, 123, 37, 0.1);
+        border-left: 5px solid var(--orange-primary);
+    }
+    
+    .nav-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .nav-links .btn {
+        transition: all 0.3s;
+    }
+    
+    .card-header {
+        background-color: var(--orange-primary) !important;
+        color: white !important;
+    }
+    
+    .user-menu {
+        border: 1px solid rgba(255, 123, 37, 0.3);
+        border-radius: 8px;
+    }
+    
+    .bg-orange-light {
+        background-color: var(--orange-light);
+    }
+    
+    .border-orange {
+        border-color: var(--orange-primary) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Герой-секция -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Добро пожаловать в турагентство BezБилета!</h1>
+            <p class="lead fs-4">Откройте для себя мир с нашими эксклюзивными предложениями</p>
+        </div>
+    </section>
+
+    <!-- Основное содержимое -->
+    <div class="container mb-5">
+        <!-- Рекомендуемый тур -->
+        {% if latest_tour %}
+        <div class="featured-tour">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="text-orange">Горящее предложение!</h2>
+                    <h3>{{ latest_tour.title }} в {{ latest_tour.country.name }}</h3>
+                    <p class="lead">Длительность: {{ latest_tour.duration_weeks }} недель</p>
+                    <a href="{% url 'tour_detail' latest_tour.id %}" class="btn btn-primary btn-lg">Подробнее</a>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-orange">
+                        <div class="card-body text-center bg-white bg-opacity-10">
+                            <h5 class="text-orange">Специальное предложение</h5>
+                            <p class="text-muted">Только сейчас скидка 15%!</p>
+                            <div class="display-4 text-orange">🔥</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">Нет доступных путёвок.</div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Можно добавить JavaScript-код для домашней страницы здесь
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Домашняя страница загружена');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0 mt-4 mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="text-center mb-4 text-orange">
+                        <i class="bi bi-person-circle"></i> Личный кабинет
+                    </h1>
+                    <div class="orange-divider mb-4"></div>
+
+                    <div class="alert alert-light mb-5 border-orange">
+                        <p class="mb-0 text-center fs-5">Добро пожаловать, <strong>{{ request.user.username }}</strong>!</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <h2 class="d-flex align-items-center mb-4 text-orange">
+                            <i class="bi bi-bag-check me-2"></i> Ваши заказы
+                        </h2>
+                        
+                        {% if orders %}
+                        <div class="list-group">
+                            {% for order in orders %}
+                            <div class="list-group-item mb-2 border-orange rounded-3">
+                                <div class="d-flex flex-column">
+                                    <strong>{{ order.tour.title }}</strong>
+                                    <span>{{ order.departure_date }}</span>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span>Кол-во: {{ order.quantity }}</span>
+                                        <span class="text-orange fw-bold">Сумма: {{ order.total_price }} BYN</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-3">
+                            <p class="text-muted">Пока нет заказов</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h3 class="d-flex align-items-center mb-3 text-orange">
+                                <i class="bi bi-percent me-2"></i> Доступные промокоды
+                            </h3>
+                            
+                            {% if available_promos %}
+                            <div class="list-group">
+                                {% for promo in available_promos %}
+                                <div class="list-group-item mb-2 border-orange rounded-3">
+                                    <div class="d-flex flex-column">
+                                        <strong class="text-orange">{{ promo.code }}</strong>
+                                        <span>{{ promo.discount_percent }}% скидка на {{ promo.tour.title }}</span>
+                                        <small class="text-muted">до {{ promo.valid_until }}</small>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-muted">Нет доступных промокодов.</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3 class="d-flex align-items-center mb-3 text-orange">
+                                <i class="bi bi-check-circle me-2"></i> Использованные промокоды
+                            </h3>
+                            
+                            {% if used_promos %}
+                            <div class="list-group">
+                                {% for promo in used_promos %}
+                                <div class="list-group-item mb-2 border-orange rounded-3 bg-light">
+                                    <div class="d-flex flex-column">
+                                        <span>{{ promo.code }}</span>
+                                        <small class="text-muted">{{ promo.discount_percent }}% на {{ promo.tour.title }}</small>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-muted">Промокоды ещё не использовались.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="{% url 'main' %}" class="btn btn-outline-orange">
+                            <i class="bi bi-house"></i> На главную
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-orange {
+        color: var(--orange-primary);
+    }
+    .orange-divider {
+        height: 2px;
+        background: var(--orange-primary);
+        opacity: 0.2;
+        margin: 1.5rem 0;
+    }
+    .border-orange {
+        border-color: rgba(255, 123, 37, 0.3) !important;
+    }
+    .btn-outline-orange {
+        color: var(--orange-primary);
+        border-color: var(--orange-primary);
+    }
+    .btn-outline-orange:hover {
+        color: white;
+        background-color: var(--orange-primary);
+    }
+    .list-group-item {
+        transition: all 0.2s;
+    }
+    .list-group-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+</style>
+{% endblock %}

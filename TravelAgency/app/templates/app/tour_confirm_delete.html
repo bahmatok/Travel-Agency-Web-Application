@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Удаление тура | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title mb-0 text-center">
+                        <i class="bi bi-exclamation-triangle"></i> Подтверждение удаления
+                    </h3>
+                </div>
+                <div class="card-body text-center py-4">
+                    <h4 class="text-danger mb-4">Вы уверены, что хотите удалить тур "{{ tour.title }}"?</h4>
+                    <p class="text-muted">Это действие нельзя будет отменить. Все связанные данные будут удалены.</p>
+                    
+                    <form method="post" class="my-4">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="{% url 'tours' %}" class="btn btn-lg btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Отмена
+                            </a>
+                            <button type="submit" class="btn btn-lg btn-danger">
+                                <i class="bi bi-trash3"></i> Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light text-center">
+                    <small class="text-muted">ID тура: {{ tour.id }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

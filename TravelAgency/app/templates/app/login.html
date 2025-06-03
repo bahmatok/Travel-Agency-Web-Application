@@ -1,0 +1,104 @@
+{% extends 'base_for_login.html' %}
+
+{% block title %}Вход | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 mt-5">
+                <div class="card-body p-4">
+                    <h1 class="text-center mb-4 text-orange">
+                        <i class="bi bi-box-arrow-in-right"></i> Вход
+                    </h1>
+                    <div class="orange-divider mb-4"></div>
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">
+                                <i class="bi bi-person"></i> Логин
+                            </label>
+                            <input type="text" 
+                                   name="{{ form.username.name }}" 
+                                   id="{{ form.username.id_for_label }}" 
+                                   class="form-control form-control-lg"
+                                   required>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">
+                                <i class="bi bi-lock"></i> Пароль
+                            </label>
+                            <input type="password" 
+                                   name="{{ form.password.name }}" 
+                                   id="{{ form.password.id_for_label }}" 
+                                   class="form-control form-control-lg"
+                                   required>
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-2">
+                                <i class="bi bi-box-arrow-in-right"></i> Войти
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{% url 'register' %}" class="text-decoration-none">
+                                <i class="bi bi-person-plus"></i> Нет аккаунта? Зарегистрироваться
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-orange {
+        color: var(--orange-primary);
+    }
+    .orange-divider {
+        height: 2px;
+        background: var(--orange-primary);
+        opacity: 0.2;
+    }
+    .form-control {
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s;
+    }
+    .form-control:focus {
+        border-color: var(--orange-primary);
+        box-shadow: 0 0 0 0.25rem rgba(255, 123, 37, 0.25);
+    }
+    .btn-lg {
+        font-size: 1.1rem;
+        border-radius: 8px;
+        background-color: var(--orange-primary);
+        border-color: var(--orange-primary);
+    }
+    .btn-lg:hover {
+        background-color: #e04e00;
+        border-color: #e04e00;
+    }
+    .invalid-feedback {
+        display: block;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Турагентство BezБилета{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --orange-primary: #FF7B25;
+            --orange-light: #FFA726;
+            --orange-dark: #E65100;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            color: var(--orange-primary) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--orange-primary);
+            border-color: var(--orange-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--orange-dark);
+            border-color: var(--orange-dark);
+        }
+        
+        .text-orange {
+            color: var(--orange-primary);
+        }
+        
+        .orange-divider {
+            width: 80px;
+            height: 4px;
+            background-color: var(--orange-primary);
+            margin: 15px auto;
+        }
+        
+        footer {
+            background-color: var(--orange-dark);
+            color: white;
+            margin-top: auto;
+            padding: 20px 0;
+        }
+        
+        main {
+            flex: 1;
+            padding: 20px 0;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'main' %}">
+                <i class="bi bi-airplane-engines"></i> Турагентство BezБилета
+            </a>
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <span class="text-orange me-3 fw-bold">
+                        {% if user.client %}
+                            {{ user.client.last_name }} {{ user.client.first_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-primary">Выйти</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основное содержимое -->
+    <main class="container">
+        {% block content %}
+        <!-- Содержимое страниц будет здесь -->
+        {% endblock %}
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0">&copy; {% now "Y" %} Турагентство BezБилета. Все права защищены мной!!!</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

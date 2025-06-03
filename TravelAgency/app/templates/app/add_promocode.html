@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать промокод | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white">
+                    <h2 class="text-center text-orange mb-0">
+                        <i class="bi bi-tag"></i> Создать промокод
+                    </h2>
+                    <div class="orange-divider"></div>
+                </div>
+                
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Создать
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Стили для формы */
+    .card {
+        margin-top: 2rem;
+    }
+    .form-control:focus {
+        border-color: var(--orange-primary);
+        box-shadow: 0 0 0 0.25rem rgba(255, 123, 37, 0.25);
+    }
+    label {
+        font-weight: 500;
+    }
+</style>
+{% endblock %}

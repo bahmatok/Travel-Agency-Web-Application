@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block title %}FAQ | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="text-center text-orange mb-4">
+                <i class="bi bi-question-circle"></i> FAQ
+            </h1>
+            <div class="orange-divider mb-4"></div>
+
+            {% if faqs %}
+            <div class="accordion shadow-sm" id="faqAccordion">
+                {% for entry in faqs %}
+                <div class="accordion-item mb-3 border-0">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" 
+                                aria-controls="collapse{{ forloop.counter }}">
+                            <i class="bi bi-question-square-fill text-orange me-2"></i>
+                            {{ entry.question }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" 
+                         aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <i class="bi bi-info-square-fill text-orange"></i>
+                                </div>
+                                <div>
+                                    {{ entry.answer }}
+                                    <div class="mt-2 text-muted small">
+                                        <i class="bi bi-clock"></i> Добавлено: 
+                                        {% timezone "Europe/Moscow" %}
+                                        {{ entry.created_at|date:"d.m.Y H:i" }}
+                                        {% endtimezone %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">
+                <i class="bi bi-info-circle"></i> Пока нет добавленных вопросов.
+            </div>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{% url 'main' %}" class="btn btn-primary">
+                    <i class="bi bi-house-door"></i> На главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 123, 37, 0.1);
+        color: var(--orange-dark);
+    }
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 123, 37, 0.25);
+        border-color: var(--orange-primary);
+    }
+</style>
+{% endblock %}

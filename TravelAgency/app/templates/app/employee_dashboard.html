@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель сотрудника | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="text-center text-orange mb-4">
+                <i class="bi bi-person-badge"></i> Панель сотрудника
+            </h2>
+            <div class="orange-divider mb-4"></div>
+
+            {% if employee %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0">Личная информация</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ФИО:</strong> {{ employee.last_name }} {{ employee.first_name }}</p>
+                            <p><strong>Должность:</strong> {{ employee.position }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Телефон:</strong> {{ employee.phone }}</p>
+                            <p><strong>Email:</strong> {{ employee.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Блок действий -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0">Действия</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2">
+                                    <a class="btn btn-outline-primary w-100 text-start" href="{% url 'add_promocode' %}">
+                                        <i class="bi bi-tag"></i> Создать промокод
+                                    </a>
+                                </li>
+                                {% if user.is_staff %}
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary w-100 text-start" href="{% url 'tour_create' %}">
+                                        <i class="bi bi-plus-circle"></i> Добавить тур
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Блок туров (для админов) -->
+                {% if user.is_staff %}
+                <div class="col-md-8 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0">Список туров</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if tours %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Страна</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for tour in tours %}
+                                        <tr>
+                                            <td>{{ tour.title }}</td>
+                                            <td>{{ tour.country.name }}</td>
+                                            <td>
+                                                <a href="{% url 'tour_edit' tour.pk %}" class="btn btn-sm btn-outline-warning">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <a href="{% url 'tour_delete' tour.pk %}" class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="alert alert-info">
+                                Нет доступных туров.
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Блок клиентов -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Мои клиенты</h4>
+                </div>
+                <div class="card-body">
+                    {% if clients %}
+                    <div class="list-group">
+                        {% for client in clients %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="bi bi-person-circle me-2 text-orange"></i>
+                                {{ client.last_name }} {{ client.first_name }} {{ client.patronymic }}
+                            </div>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Просмотр
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        У вас пока нет закреплённых клиентов.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Блок заказов -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Мои заказы</h4>
+                </div>
+                <div class="card-body">
+                    {% if orders %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Клиент</th>
+                                    <th>Тур</th>
+                                    <th>Дата вылета</th>
+                                    <th>Стоимость</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.client }}</td>
+                                    <td>{{ order.tour }}</td>
+                                    <td>{{ order.departure_date }}</td>
+                                    <td>{{ order.total_price }} руб.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        Нет заказов.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% else %}
+            <div class="alert alert-danger">
+                Профиль сотрудника не найден.
+            </div>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{% url 'main' %}" class="btn btn-primary">
+                    <i class="bi bi-house-door"></i> На главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-bottom: 1.5rem;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 123, 37, 0.1);
+    }
+    .list-group-item {
+        transition: all 0.2s;
+    }
+    .list-group-item:hover {
+        background-color: rgba(255, 123, 37, 0.05);
+    }
+</style>
+{% endblock %}

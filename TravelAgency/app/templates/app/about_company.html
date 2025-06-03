@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}О компании | {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .company-history {
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+    
+    .requisites {
+        background-color: rgba(255, 167, 38, 0.05);
+        border-left: 3px solid var(--orange-primary);
+        font-family: 'Courier New', monospace;
+        white-space: pre-wrap;
+    }
+    
+    .about-content {
+        border: 1px solid rgba(255, 123, 37, 0.2);
+        border-radius: 8px;
+    }
+    
+    .info-card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .info-card-header {
+        background-color: var(--orange-primary);
+        color: white;
+        border-radius: 10px 10px 0 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Заголовок -->
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-orange">О нашей компании</h2>
+            <div class="orange-divider"></div>
+        </div>
+
+        <!-- Основная информация -->
+        <div class="card info-card mb-5">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-light p-3 rounded me-3" style="background-color: rgba(255, 123, 37, 0.1) !important;">
+                        <i class="bi bi-calendar-event-fill text-orange fs-1"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-orange">Основана в</h4>
+                        <p class="fs-3 fw-bold">{{ company.founding_year }} году</p>
+                    </div>
+                </div>
+                
+                <div class="about-content bg-white p-4 rounded">
+                    <h4 class="text-orange mb-3">Наша история</h4>
+                    <div class="company-history">
+                        {{ company.history|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Реквизиты -->
+        <div class="card info-card mb-5">
+            <div class="card-header info-card-header">
+                <h4 class="mb-0"><i class="bi bi-file-text-fill me-2"></i>Реквизиты компании</h4>
+            </div>
+            <div class="card-body">
+                <div class="requisites p-3 rounded">
+                    {{ company.requisites|linebreaks }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка назад -->
+        <div class="text-center mt-4">
+            <a href="{% url 'main' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-arrow-left me-2"></i>На главную
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base_for_login.html' %}
+
+{% block title %}Политика конфиденциальности | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mt-4 mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="text-center mb-4 text-orange">
+                        <i class="bi bi-shield-lock"></i> Политика конфиденциальности
+                    </h1>
+                    <div class="orange-divider mb-4"></div>
+
+                    <div class="privacy-content">
+                        <p class="lead">Мы уважаем вашу конфиденциальность и обязуемся защищать личные данные, которые вы предоставляете.</p>
+
+                        <div class="privacy-section mt-5">
+                            <h2 class="d-flex align-items-center text-orange">
+                                <i class="bi bi-card-checklist me-3"></i> Какие данные мы собираем
+                            </h2>
+                            <ul class="list-group list-group-flush mt-3">
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                    <i class="bi bi-check-circle-fill text-orange me-2 mt-1"></i>
+                                    <span>Имя, адрес, номер телефона</span>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                    <i class="bi bi-check-circle-fill text-orange me-2 mt-1"></i>
+                                    <span>Информация о бронированиях и заказах</span>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                    <i class="bi bi-check-circle-fill text-orange me-2 mt-1"></i>
+                                    <span>Отзывы и комментарии</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="privacy-section mt-5">
+                            <h2 class="d-flex align-items-center text-orange">
+                                <i class="bi bi-gear me-3"></i> Как мы используем данные
+                            </h2>
+                            <p class="mt-3">Для обработки заказов, улучшения сервиса, обратной связи и аналитики.</p>
+                        </div>
+
+                        <div class="privacy-section mt-5">
+                            <h2 class="d-flex align-items-center text-orange">
+                                <i class="bi bi-arrow-left-right me-3"></i> Передача данных
+                            </h2>
+                            <p class="mt-3">Мы не передаём ваши данные третьим лицам без вашего согласия, за исключением случаев, предусмотренных законом.</p>
+                        </div>
+
+                        <div class="privacy-section mt-5">
+                            <h2 class="d-flex align-items-center text-orange">
+                                <i class="bi bi-shield-check me-3"></i> Безопасность
+                            </h2>
+                            <p class="mt-3">Мы применяем современные меры для защиты данных от несанкционированного доступа.</p>
+                        </div>
+
+                        <div class="alert alert-orange mt-5">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-question-circle-fill me-3 fs-4"></i>
+                                <div>Если у вас есть вопросы — свяжитесь с нами через <a href="#" class="text-decoration-none">форму обратной связи</a> или по телефону.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-orange {
+        color: var(--orange-primary);
+    }
+    .orange-divider {
+        height: 2px;
+        background: var(--orange-primary);
+        opacity: 0.2;
+        margin: 1.5rem 0;
+    }
+    .privacy-content {
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+    .privacy-section {
+        margin-bottom: 2.5rem;
+    }
+    .alert-orange {
+        background-color: rgba(255, 123, 37, 0.1);
+        border-left: 4px solid var(--orange-primary);
+        border-radius: 0;
+    }
+    .list-group-item {
+        padding: 0.5rem 0;
+        background: none;
+    }
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1.5rem;
+        }
+        h2 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+{% endblock %}

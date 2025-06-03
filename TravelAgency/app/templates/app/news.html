@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Новости | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center text-orange mb-4">Наши новости</h2>
+            <div class="orange-divider mb-4"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title">{{ article.title }}</h3>
+                    <p class="card-text">{{ article.short_description }}</p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <a href="{% url 'news_detail' article.pk %}" class="btn btn-primary">Читать далее</a>
+                    <small class="text-muted float-end mt-2">
+                        {{ article.pub_date|date:"d.m.Y" }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Новостей пока нет.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'main' %}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> На главную
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

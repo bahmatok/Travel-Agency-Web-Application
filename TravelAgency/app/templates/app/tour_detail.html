@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tour.title }} | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'main' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'tours' %}">Туры</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ tour.title|truncatechars:30 }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4 shadow-sm">
+                {% if tour.image %}
+                <img src="{{ tour.image.url }}" class="card-img-top img-fluid rounded-top" alt="{{ tour.title }}">
+                {% else %}
+                <div class="card-img-top no-image d-flex align-items-center justify-content-center bg-light" style="height: 300px;">
+                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h1 class="card-title text-orange">{{ tour.title }}</h1>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="mb-2"><i class="bi bi-geo-alt-fill text-orange me-2"></i> <strong>Страна:</strong> {{ tour.country.name }}</p>
+                            <p class="mb-2"><i class="bi bi-building text-orange me-2"></i> <strong>Отель:</strong> {{ tour.hotel.name }}</p>
+                            <p class="mb-2"><i class="bi bi-geo-alt text-orange me-2"></i> <strong>Город:</strong> {{ tour.hotel.city }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2"><i class="bi bi-calendar-week text-orange me-2"></i> <strong>Длительность:</strong> {{ tour.duration_weeks }} недель</p>
+                            <p class="mb-2"><i class="bi bi-cash-stack text-orange me-2"></i> <strong>Цена:</strong> {{ tour.base_price }} руб.</p>
+                            <p class="mb-2"><i class="bi bi-currency-dollar text-orange me-2"></i> <strong>~ {{ converted_price }} USD</strong></p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-orange mt-4 mb-3">Описание тура</h4>
+                    <div class="tour-description">
+                        {{ tour.description|linebreaks }}
+                    </div>
+                    
+                    {% if weather %}
+                    <div class="weather-info mt-4 p-3 bg-light rounded">
+                        <h5 class="text-orange"><i class="bi bi-cloud-sun-fill"></i> Погода в стране {{ tour.country }}</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="display-4 me-3">{{ weather.temp }}°C</div>
+                            <div>
+                                <p class="mb-1">{{ weather.desc }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        {% if user.is_authenticated and user.client %}
+        <div class="col-lg-4">
+            <div class="card shadow-sm sticky-top" style="top: 20px;">
+                <div class="card-header bg-orange text-white">
+                    <h5 class="mb-0"><i class="bi bi-bookmark-check"></i> Бронирование</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'tour_booking' tour.id %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-cart-check"></i> Забронировать тур
+                        </a>        
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{% url 'tours' %}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> Назад к списку туров
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tour-description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    
+    .no-image {
+        height: 300px;
+    }
+    
+    .bg-orange {
+        background-color: var(--orange-primary) !important;
+    }
+    
+    .weather-info {
+        border-left: 4px solid var(--orange-primary);
+    }
+    
+    .sticky-top {
+        z-index: 1;
+    }
+</style>
+{% endblock %}

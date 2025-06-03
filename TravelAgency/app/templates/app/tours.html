@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Список туров | Турагентство BezБилета{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center text-orange mb-3">Список доступных туров</h1>
+            <div class="orange-divider mb-4"></div>
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'main' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Список туров</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <form method="get" class="row g-3">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" name="q" placeholder="Поиск по названию или стране" value="{{ query }}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select name="sort" class="form-select">
+                        <option value="base_price" {% if sort_by == "base_price" %}selected{% endif %}>Сначала дешевые</option>
+                        <option value="-base_price" {% if sort_by == "-base_price" %}selected{% endif %}>Сначала дорогие</option>
+                        <option value="duration_weeks" {% if sort_by == "duration_weeks" %}selected{% endif %}>Короткие туры</option>
+                        <option value="-duration_weeks" {% if sort_by == "-duration_weeks" %}selected{% endif %}>Длинные туры</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">Поиск</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for tour in tours %}
+        <div class="col">
+            <div class="card h-100 shadow-sm tour-card">
+                {% if tour.image %}
+                <img src="{{ tour.image.url }}" class="card-img-top tour-image" alt="{{ tour.title }}">
+                {% else %}
+                <div class="card-img-top no-image d-flex align-items-center justify-content-center">
+                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h3 class="h5 card-title text-orange">{{ tour.title }}</h3>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-geo-alt text-orange me-2"></i>
+                        <span>{{ tour.country.name }}</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-building text-orange me-2"></i>
+                        <span>{{ tour.hotel.name }}</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-calendar-week text-orange me-2"></i>
+                        <span>{{ tour.duration_weeks }} нед.</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <h4 class="mb-0 text-orange">{{ tour.base_price }} руб.</h4>
+                        <a href="{% url 'tour_detail' tour.id %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-info-circle"></i> Подробнее
+                        </a>
+                    </div>
+                </div>
+                
+                {% if tour.is_hot %}
+                <div class="position-absolute top-0 end-0 m-2">
+                    <span class="badge bg-danger">Горящий тур!</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="bi bi-exclamation-circle me-2"></i> Нет доступных туров по вашему запросу
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'main' %}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> На главную
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tour-image {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .no-image {
+        height: 200px;
+        background-color: #f8f9fa;
+    }
+    
+    .tour-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .tour-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 123, 37, 0.1);
+    }
+    
+    .form-select:focus, .form-control:focus {
+        border-color: var(--orange-primary);
+        box-shadow: 0 0 0 0.25rem rgba(255, 123, 37, 0.25);
+    }
+</style>
+{% endblock %}
