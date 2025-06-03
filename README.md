@@ -40,7 +40,7 @@ A comprehensive **Django-based** travel agency management system that provides c
 
 ![Main page](/TravelAgency/media/screenshots/main.jpg?raw=true "Main page")
 
-![Main page](/TravelAgency/media/screenshots/login.jpg?raw=true "Main page")
+![Login page](/TravelAgency/media/screenshots/login.jpg?raw=true "Login page")
 
 ![Client dashboard page](/TravelAgency/media/screenshots/client_dashboard.jpg?raw=true "Client dashboard page")
 
